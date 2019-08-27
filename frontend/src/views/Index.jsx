@@ -45,15 +45,12 @@ import Carousel from "./IndexSections/Carousel.jsx";
 import Icons from "./IndexSections/Icons.jsx";
 import Login from "./IndexSections/Login.jsx";
 import Download from "./IndexSections/Download.jsx";
-import KittenServices from "./../services/kitten.service.js";
 
 class Index extends React.Component {
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
-    const kittenServices = new KittenServices();
-    kittenServices.get().then(res => console.log(res.name))
   }
 
   render() {
