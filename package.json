@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "preinstall": "cd backend && npm install",
+        "postinstall": "cd backend && npm install",
         "start": "cd backend && npm start"
     }
 }
