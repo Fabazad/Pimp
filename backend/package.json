@@ -1,5 +1,9 @@
 {
     "scripts": {
         "start": "node server"
+    },
+    "dependencies": {
+        "fastify": "^2.7.1",
+        "fastify-cors": "^2.1.3"
     }
 }
