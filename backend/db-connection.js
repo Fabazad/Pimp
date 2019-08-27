@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const fastifyPlugin = require('fastify-plugin');
 const constants = require('./helpers/constants');
+require('dotenv').config();
 
 async function dbConnector (fastify) {
-    mongoose.connect(constants.MONGO_LOCAL_URL, {useNewUrlParser: true});
+    console.log(process.env.DB_URL) // root
+    mongoose.connect(process.env.DB_URL, {useNewUrlParser: true});
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
