@@ -2,6 +2,6 @@
     "scripts": {
         "postinstall": "cd backend && npm i",
         "start": "cd backend && npm start",
-        "heroku-postbuild": "cd ../frontend && npm build"
+        "heroku-postbuild": "cd frontend && npm build"
     }
 }
