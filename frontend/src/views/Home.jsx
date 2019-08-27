@@ -19,7 +19,7 @@ class Index extends React.Component {
       <>
         <DemoNavbar />
         <main ref="main" className="mt-72px">
-            <Container className="mt-3">
+            <Container className="mt-2">
                 <Row>
                     <Col className="text-left">
                         <Button color="secondary" type="button">Previous</Button>
@@ -28,7 +28,12 @@ class Index extends React.Component {
                         <Button color="secondary" type="button">Next</Button>
                     </Col>
                 </Row>
-                <Row className="mt-3">
+                <Row className="mt-2">
+                    <Col>
+                        <h2 className="text-default">Vibe</h2>
+                    </Col>
+                </Row>
+                <Row>
                     <Col>
                         <Button size="sm" color="success" className="w-100">Notes</Button>
                     </Col>
