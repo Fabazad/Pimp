@@ -3,10 +3,6 @@ const fastify = require('fastify')({ logger: true });
 const path = require('path');
 fastify.register(require('fastify-static'), {
   root: path.join(__dirname, 'public')
-})
-
-fastify.register(require('fastify-cors'), { 
-  origin: constants.FRONTEND_URL
 });
 
 fastify.register(require('./routes'));
