@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "postinstall": "cd backend && npm install",
-        "start": "cd backend && npm start"
+        "postinstall": "cd backend && npm i && cd ../frontend && npm i",
+        "start": "cd backend && npm start && cd ../frontend 11 npm start"
     }
 }

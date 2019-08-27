@@ -7,7 +7,7 @@ function serviceResolve(response) {
 
 class KittenService {
     get() {
-        return axios.get(constants.SERVER_LOCAL_URL + '/').then(serviceResolve, err => console.log(err));
+        return axios.get(constants.SERVER_URL + '/').then(serviceResolve, err => console.log(err));
     }
 }
 
