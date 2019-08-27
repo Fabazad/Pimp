@@ -10,7 +10,7 @@ fastify.register(require('./db-connection'));
 
 // Run the server!
 const start = () => {
-  fastify.listen(8000)
+  fastify.listen(process.env.PORT || 8000)
   .catch (err => {
     fastify.log.error(err)
     process.exit(1)
