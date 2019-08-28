@@ -2,12 +2,13 @@ import React from "react";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
-import CardsFooter from "components/Footers/CardsFooter.jsx";
+import SimpleModal from "components/Modals/SimpleModal.jsx";
+import { Link } from "react-router-dom";
 
 // index page sections
-import { Button, Container, Row, Col } from "reactstrap";
+import { Button, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 
-class Index extends React.Component {
+class StepView extends React.Component {
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -15,10 +16,16 @@ class Index extends React.Component {
   }
 
   render() {
+      const text = `test \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu`;
     return (
       <>
         <DemoNavbar />
-        <main ref="main" className="mt-72px">
+        <main ref="main" className="mt-56px">
+            <Breadcrumb>
+                <BreadcrumbItem><a href="#">Home</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#">Library</a></BreadcrumbItem>
+                <BreadcrumbItem active>Data</BreadcrumbItem>
+            </Breadcrumb>
             <Container className="mt-2">
                 <Row>
                     <Col className="text-left">
@@ -29,13 +36,13 @@ class Index extends React.Component {
                     </Col>
                 </Row>
                 <Row className="mt-2">
-                    <Col>
-                        <h2 className="text-default">Vibe</h2>
+                    <Col className="text-center">
+                        <h2 className="text-default">Vibe {this.props.match.params.id}</h2>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Button size="sm" color="success" className="w-100">Notes</Button>
+                        <SimpleModal title="Vibe Notes" text={text}></SimpleModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Video</Button>
@@ -48,10 +55,18 @@ class Index extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd fdvx</Button>
-                        <Button className="w-100 my-1" size="lg" type="button" color="primary">fhd fjedgsvb</Button>
-                        <Button className="w-100 my-1" size="lg" type="button" color="primary">fdv fdjvh fdvx</Button>
-                        <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd dsf fhdb</Button>
+                        <Link to={'/step/' + '1'}>
+                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd fdvx</Button>
+                        </Link>
+                        <Link to={'/step/' + '2'}>
+                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fhd fjedgsvb</Button>
+                        </Link>
+                        <Link to={'/step/' + '3'}>
+                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fdv fdjvh fdvx</Button>
+                        </Link>
+                        <Link to={'/step/' + '4'}>
+                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd dsf fhdb</Button>
+                        </Link>
                     </Col>
                 </Row>
                 <Row className="mt-4">
@@ -71,4 +86,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+export default StepView;

@@ -24,7 +24,8 @@ import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss";
 import "assets/scss/style.scss";
 
-import Home from "views/Home.jsx";
+import StepView from "views/StepView.jsx";
+import EditStep from "views/EditStep.jsx";
 import Index from "views/Index.jsx";
 import Landing from "views/examples/Landing.jsx";
 import Login from "views/examples/Login.jsx";
@@ -34,7 +35,9 @@ import Register from "views/examples/Register.jsx";
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact render={props => <Home {...props} />} />
+      <Route path="/" exact render={props => <StepView {...props} />} />
+      <Route path="/step/:id" exact render={props => <StepView {...props} />} />
+      <Route path="/edit-step/:id" exact render={props => <EditStep {...props} />} />
       <Route path="/index" exact render={props => <Index {...props} />} />
       <Route
         path="/landing-page"
