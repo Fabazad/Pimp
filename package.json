@@ -3,5 +3,8 @@
         "postinstall": "cd backend && npm i && cd ../frontend && npm i",
         "start": "cd backend && npm start",
         "heroku-postbuild": "cd frontend && npm run build"
+    },
+    "devDependencies": {
+        "dotenv": "^8.1.0"
     }
 }

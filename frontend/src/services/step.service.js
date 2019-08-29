@@ -1,9 +1,9 @@
 import BaseService from "./base.service.js";
 
-class KittenService extends BaseService {
+class StepService extends BaseService {
     constructor() {
         super('');
     }
 }
 
-export default KittenService;
+export default StepService;

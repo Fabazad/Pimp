@@ -6,7 +6,7 @@ fastify.register(require('fastify-static'), {
 })
 
 fastify.register(require('fastify-cors'), { 
-  origin: constants.FRONTEND_URL
+  origin: process.env.PROD ? constants.FRONTEND_URL : constants.FRONTEND_LOCAL_URL
 });
 
 fastify.register(require('./routes'));

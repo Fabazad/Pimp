@@ -42,7 +42,7 @@ class StepView extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <SimpleModal title="Vibe Notes" text={text}></SimpleModal>
+                        <SimpleModal buttonTitle="Notes" title="Vibe Notes" text={text}></SimpleModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Video</Button>
@@ -55,16 +55,16 @@ class StepView extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        <Link to={'/step/' + '1'}>
+                        <Link to={'/step/1'}>
                             <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd fdvx</Button>
                         </Link>
-                        <Link to={'/step/' + '2'}>
+                        <Link to={'/step/2'}>
                             <Button className="w-100 my-1" size="lg" type="button" color="primary">fhd fjedgsvb</Button>
                         </Link>
-                        <Link to={'/step/' + '3'}>
+                        <Link to={'/step/3'}>
                             <Button className="w-100 my-1" size="lg" type="button" color="primary">fdv fdjvh fdvx</Button>
                         </Link>
-                        <Link to={'/step/' + '4'}>
+                        <Link to={'/step/4'}>
                             <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd dsf fhdb</Button>
                         </Link>
                     </Col>

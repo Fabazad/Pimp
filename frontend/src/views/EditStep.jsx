@@ -3,16 +3,32 @@ import React from "react";
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleModal from "components/Modals/SimpleModal.jsx";
+import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import { Link } from "react-router-dom";
 
 // index page sections
 import { Button, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 
 class EditStep extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            steps: []
+        };
+        this.addStep = this.addStep.bind(this);
+    }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+  }
+
+  addStep(step) {
+    const steps = this.state.steps;
+    steps.push(step);
+    this.setState({steps: steps})
   }
 
   render() {
@@ -42,7 +58,7 @@ class EditStep extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <SimpleModal title="Vibe Notes" text={text}></SimpleModal>
+                        <SimpleModal buttonTitle="Notes" title="Vibe Notes" text={text}></SimpleModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Update Video</Button>
@@ -55,18 +71,10 @@ class EditStep extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        <Link to={'/step/' + '1'}>
+                        <Link to={'/edit-step/' + '1'}>
                             <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd fdvx</Button>
                         </Link>
-                        <Link to={'/step/' + '2'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fhd fjedgsvb</Button>
-                        </Link>
-                        <Link to={'/step/' + '3'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fdv fdjvh fdvx</Button>
-                        </Link>
-                        <Link to={'/step/' + '4'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd dsf fhdb</Button>
-                        </Link>
+                        <AddEditStepModal onAdd={this.addStep}></AddEditStepModal>
                     </Col>
                 </Row>
                 <Row className="mt-3">

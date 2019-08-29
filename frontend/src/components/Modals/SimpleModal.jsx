@@ -24,7 +24,7 @@ class SimpleModal extends React.Component {
           type="button"
           className="w-100"
           onClick={() => this.toggleModal("exampleModal")}
-        >Notes</Button>
+        >{this.props.buttonTitle}</Button>
         {/* Modal */}
         <Modal
           className="modal-dialog-centered"
