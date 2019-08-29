@@ -11,13 +11,17 @@ class BaseService {
     baseURL;
 
     constructor(path) {
-        this.baseURL = constants.SERVER_LOCAL_URL + path;
+        this.baseURL = (process.env.NODE_ENV === 'development' ? constants.SERVER_DEV_URL : constants.SERVER_PROD_URL) + path;
         this.getOne = this.getOne.bind(this);
-        console.log(process.env);
     }
 
-    getOne() {
-        return axios.get(this.baseURL + '/').then(serviceResolve, err => console.log(err));
+    getOne(itemId) {
+        itemId = itemId ? itemId : '';
+        return axios.get(this.baseURL + '/' + itemId).then(serviceResolve, err => console.log(err));
+    }
+
+    create(item, options = {}) {
+        return axios.post(this.baseURL + "/create", {item, options}).then(serviceResolve, err => console.log(err));
     }
 }
 

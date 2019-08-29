@@ -37,6 +37,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/" exact render={props => <StepView {...props} />} />
       <Route path="/step/:id" exact render={props => <StepView {...props} />} />
+      <Route path="/edit-step/" exact render={props => <EditStep {...props} />} />
       <Route path="/edit-step/:id" exact render={props => <EditStep {...props} />} />
       <Route path="/index" exact render={props => <Index {...props} />} />
       <Route

@@ -10,7 +10,6 @@ import {
 } from "reactstrap";
 
 class AddEditStepModal extends React.Component {
-  
 
   constructor(props) {
     super(props)
@@ -23,12 +22,15 @@ class AddEditStepModal extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.focusInput = this.focusInput.bind(this);
     this.stepService = new StepService();
+    this.titleInput = React.createRef();
   }
 
   toggleModal = state => {
     this.setState({
-      [state]: !this.state[state]
+      [state]: !this.state[state],
+      step: { title: ''}
     });
   };
 
@@ -44,12 +46,14 @@ class AddEditStepModal extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    this.stepService.getOne().then(res => {
-      this.setState({
-        step: { title: '' }
-      });
-      this.props.onAdd(res)
+    this.stepService.create(this.state.step, {stepId: this.props.currentStepId}).then(step => {
+      this.props.onAdd(step);
+      this.toggleModal("exampleModal");
     });
+  }
+
+  focusInput() {
+    this.titleInput.current.focus();
   }
 
   render() {
@@ -67,6 +71,8 @@ class AddEditStepModal extends React.Component {
         <Modal
           className="modal-dialog-centered"
           isOpen={this.state.exampleModal}
+          unmountOnClose={true}
+          onOpened={this.focusInput}
           toggle={() => this.toggleModal("exampleModal")}
         >
           <div className="modal-header">
@@ -86,7 +92,13 @@ class AddEditStepModal extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <div className="modal-body white-space-pre-line">
               <FormGroup>
-                <Input placeholder="Step title" type="text" value={this.state.step.title} onChange={this.handleChange} name="title"/>
+                <Input 
+                  placeholder="Step title" 
+                  type="text" 
+                  value={this.state.step.title} 
+                  onChange={this.handleChange} 
+                  name="title"
+                  ref={this.titleInput} />
               </FormGroup>
             </div>
             <div className="modal-footer">
@@ -102,7 +114,6 @@ class AddEditStepModal extends React.Component {
                 color="success"
                 data-dismiss="modal"
                 type="submit"
-                onClick={() => this.toggleModal("exampleModal")}
               >
                 Save
               </Button>

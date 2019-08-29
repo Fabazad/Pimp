@@ -2,7 +2,7 @@ import BaseService from "./base.service.js";
 
 class StepService extends BaseService {
     constructor() {
-        super('');
+        super('/step');
     }
 }
 

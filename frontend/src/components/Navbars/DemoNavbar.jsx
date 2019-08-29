@@ -82,7 +82,7 @@ class DemoNavbar extends React.Component {
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink to={"/edit-step/1"} tag={Link}>
+                    <NavLink to={"/edit-step/"} tag={Link}>
                       Admin
                     </NavLink>
                   </NavItem>
