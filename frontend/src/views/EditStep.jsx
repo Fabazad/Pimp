@@ -91,6 +91,23 @@ class EditStep extends React.Component {
     ) : null;
   }
 
+  nextButtonRender() {
+    const parentStep = this.state.stepHistory[this.state.stepHistory.length - 2];
+    if(!parentStep) {
+        return (null);
+    }
+    console.log("test");
+    const stepIndex = parentStep.steps.findIndex(step => step._id === this.state.step._id);
+    const nextStep = parentStep.steps[stepIndex + 1];
+    return (nextStep) ? (
+        <Col className="text-right">
+            <Link to={"/edit-step/" + nextStep._id}>
+                <Button color="secondary" type="button">Next</Button>
+            </Link>
+        </Col>
+    ) : null;
+  }
+
   render() {
       const text = `test \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu`;
     return (
@@ -103,9 +120,7 @@ class EditStep extends React.Component {
             <Container className="mt-2">
                 <Row>
                     {this.previousButtonRender()}
-                    <Col className="text-right">
-                        <Button color="secondary" type="button">Next</Button>
-                    </Col>
+                    {this.nextButtonRender()}
                 </Row>
                 <Row className="mt-2">
                     <Col className="text-center">
