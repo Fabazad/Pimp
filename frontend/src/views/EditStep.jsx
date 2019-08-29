@@ -5,6 +5,7 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import StepService from "services/step.service.js";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
+import EditStepTitleModal from "components/Modals/EditStepTitleModal";
 import { Link } from "react-router-dom";
 
 // index page sections
@@ -123,7 +124,10 @@ class EditStep extends React.Component {
                 </Row>
                 <Row className="mt-2">
                     <Col className="text-center">
-                        <h2 className="text-default">Edit {this.state.step.title}</h2>
+                        <h2 className="text-default">
+                            {this.state.step.title} 
+                            <EditStepTitleModal step={this.state.step} onEdit={this.updateStep}></EditStepTitleModal>
+                        </h2>
                     </Col>
                 </Row>
                 <Row>
