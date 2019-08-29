@@ -52,9 +52,17 @@ class EditStep extends React.Component {
   stepsRender() {
       return this.state.step.steps.map(step => {
         return (
-        <Link to={'/edit-step/' + step._id} key={step._id}>
-            <Button className="w-100 my-1" size="lg" type="button" color="primary">{step.title}</Button>
-        </Link>)
+            <Row key={step._id} className="my-1">
+                <Col>
+                    <Link to={'/edit-step/' + step._id}>
+                        <Button className="w-100" size="lg" type="button" color="primary">{step.title}</Button>
+                    </Link>
+                </Col>
+                <div  className="pr-3">
+                    <Button type="button" size="lg" color="danger" onClick={() => this.removeStep(step._id)}>X</Button>
+                </div>
+            </Row>
+        )
       });
   }
 
@@ -108,8 +116,18 @@ class EditStep extends React.Component {
     ) : null;
   }
 
+  removeStep(stepId) {
+      const index = this.state.step.steps.findIndex(step => step._id === stepId);
+      if (index >= 0) {
+          const steps = this.state.step.steps;
+          steps.splice(index, 1);
+          this.stepService.update(this.state.step._id, {steps: steps}).then(step => {
+            this.setState({step: step});
+          })
+      }
+  }
+
   render() {
-      const text = `test \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu`;
     return (
       <>
         <DemoNavbar />
