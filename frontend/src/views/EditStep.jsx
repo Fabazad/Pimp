@@ -2,10 +2,10 @@ import React from "react";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
-import SimpleModal from "components/Modals/SimpleModal.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import StepService from "services/step.service.js";
-import { Link, Redirect } from "react-router-dom";
+import EditInstructionsModal from "components/Modals/EditInstructionsModal";
+import { Link } from "react-router-dom";
 
 // index page sections
 import { Button, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
@@ -21,7 +21,7 @@ class EditStep extends React.Component {
             stepHistory: []
         };
         this.stepService = new StepService();
-        this.addStep = this.addStep.bind(this);
+        this.updateStep = this.updateStep.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,7 +44,7 @@ class EditStep extends React.Component {
     });
   }
 
-  addStep(step) {
+  updateStep(step) {
     this.setState({step: step})
   }
 
@@ -96,7 +96,6 @@ class EditStep extends React.Component {
     if(!parentStep) {
         return (null);
     }
-    console.log("test");
     const stepIndex = parentStep.steps.findIndex(step => step._id === this.state.step._id);
     const nextStep = parentStep.steps[stepIndex + 1];
     return (nextStep) ? (
@@ -129,7 +128,7 @@ class EditStep extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <SimpleModal buttonTitle="Notes" title={this.state.step.title + ' Notes'} text={text}></SimpleModal>
+                        <EditInstructionsModal step={this.state.step} onEdit={this.updateStep}></EditInstructionsModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Update Video</Button>
@@ -143,7 +142,7 @@ class EditStep extends React.Component {
                 <Row className="mt-1">
                     <Col xs="12">
                         {this.stepsRender()}
-                        <AddEditStepModal onAdd={this.addStep} currentStepId={this.state.step._id}></AddEditStepModal>
+                        <AddEditStepModal onAdd={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
                     </Col>
                 </Row>
             </Container>

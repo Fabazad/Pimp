@@ -10,6 +10,10 @@ var stepSchema = new mongoose.Schema({
     main: {
         type: Boolean,
         default: false
+    },
+    instructions: {
+        type: String,
+        default: ""
     }
 });
 

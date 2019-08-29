@@ -23,6 +23,10 @@ class BaseService {
     create(item, options = {}) {
         return axios.post(this.baseURL + "/create", {item, options}).then(serviceResolve, err => console.log(err));
     }
+
+    update(itemId, fields) {
+        return axios.post(this.baseURL + "/update", {itemId, fields}).then(serviceResolve, err => console.log(err));
+    }
 }
 
 export default BaseService;
