@@ -12,7 +12,7 @@ class BaseService {
 
     constructor(path) {
         this.baseURL = (process.env.NODE_ENV === 'development' ? constants.SERVER_DEV_URL : constants.SERVER_PROD_URL) + path;
-        this.getOne = this.getOne.bind(this);
+        console.log(this.baseURL);
     }
 
     getOne(itemId) {
