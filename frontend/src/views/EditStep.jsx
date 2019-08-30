@@ -5,6 +5,7 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import StepService from "services/step.service.js";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
+import ReactDragListView from 'react-drag-listview';
 import { Link } from "react-router-dom";
 
 // index page sections
@@ -49,7 +50,7 @@ class EditStep extends React.Component {
   }
 
   stepsRender() {
-      return this.state.step.steps.map(step => {
+    return this.state.step.steps.map(step => {
         return (
             <Row key={step._id} className="my-1">
                 <Col>
@@ -62,7 +63,7 @@ class EditStep extends React.Component {
                 </div>
             </Row>
         )
-      });
+    });
   }
 
   breadCrumbItemsRender() {
@@ -127,6 +128,19 @@ class EditStep extends React.Component {
   }
 
   render() {
+      
+    const that = this;
+    const dragProps = {
+      onDragEnd(fromIndex, toIndex) {
+        const steps = that.state.step.steps;
+        const item = steps.splice(fromIndex, 1)[0];
+        steps.splice(toIndex, 0, item);
+        that.stepService.update(that.state.step._id, {steps}).then(step => that.setState({step}));
+      },
+      nodeSelector: 'div.row',
+      handleSelector: 'div.col'
+    };
+
     return (
       <>
         <DemoNavbar />
@@ -162,7 +176,9 @@ class EditStep extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        {this.stepsRender()}
+                        <ReactDragListView {...dragProps}>
+                            {this.stepsRender()}
+                        </ReactDragListView>
                         <AddEditStepModal onSave={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
                     </Col>
                 </Row>
