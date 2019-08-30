@@ -5,7 +5,6 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import StepService from "services/step.service.js";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
-import EditStepTitleModal from "components/Modals/EditStepTitleModal";
 import { Link } from "react-router-dom";
 
 // index page sections
@@ -144,7 +143,7 @@ class EditStep extends React.Component {
                     <Col className="text-center">
                         <h2 className="text-default">
                             {this.state.step.title} 
-                            <EditStepTitleModal step={this.state.step} onEdit={this.updateStep}></EditStepTitleModal>
+                            <AddEditStepModal step={this.state.step} onSave={this.updateStep} isEditing={true}></AddEditStepModal>
                         </h2>
                     </Col>
                 </Row>
@@ -164,7 +163,7 @@ class EditStep extends React.Component {
                 <Row className="mt-1">
                     <Col xs="12">
                         {this.stepsRender()}
-                        <AddEditStepModal onAdd={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
+                        <AddEditStepModal onSave={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
                     </Col>
                 </Row>
             </Container>

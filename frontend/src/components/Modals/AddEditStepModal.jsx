@@ -30,7 +30,7 @@ class AddEditStepModal extends React.Component {
   toggleModal = state => {
     this.setState({
       [state]: !this.state[state],
-      step: { title: ''}
+      step: this.props.isEditing ? this.props.step : { title: ''}
     });
   };
 
@@ -46,8 +46,11 @@ class AddEditStepModal extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    this.stepService.create(this.state.step, {stepId: this.props.currentStepId}).then(step => {
-      this.props.onAdd(step);
+    const serviceAction = this.props.isEditing ?
+    this.stepService.update(this.props.step._id, {title: this.state.step.title}) :
+      this.stepService.create(this.state.step, {stepId: this.props.currentStepId});
+    serviceAction.then(step => {
+      this.props.onSave(step);
       this.toggleModal("exampleModal");
     });
   }
@@ -56,17 +59,28 @@ class AddEditStepModal extends React.Component {
     this.titleInput.current.focus();
   }
 
+  modalButtonRender() {
+    return this.props.isEditing ? 
+      (<Button
+        color="warning"
+        type="button"
+        className="ml-2"
+        size="sm"
+        onClick={() => this.toggleModal("exampleModal")}
+      >Edit</Button>) :
+      (<Button
+        color="success"
+        type="button"
+        className="w-100"
+        onClick={() => this.toggleModal("exampleModal")}
+      >Add</Button>);
+  }
+
   render() {
     const title = (this.props.isEditing ? "Edit" : "Add") + " step";
     return (
       <>
-        {/* Button trigger modal */}
-        <Button
-          color="success"
-          type="button"
-          className="w-100"
-          onClick={() => this.toggleModal("exampleModal")}
-        >{title}</Button>
+        {this.modalButtonRender()}
         {/* Modal */}
         <Modal
           className="modal-dialog-centered"
