@@ -72,6 +72,7 @@ class AddEditStepModal extends React.Component {
         color="success"
         type="button"
         className="w-100"
+        size="lg"
         onClick={() => this.toggleModal("exampleModal")}
       >Add</Button>);
   }

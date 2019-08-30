@@ -15,6 +15,7 @@ class BaseService {
     }
 
     getOne(itemId) {
+        console.log(this.baseURL);
         itemId = itemId ? itemId : '';
         return axios.get(this.baseURL + '/' + itemId).then(serviceResolve, err => console.log(err));
     }

@@ -52,7 +52,7 @@ class EditStep extends React.Component {
   stepsRender() {
     return this.state.step.steps.map(step => {
         return (
-            <Row key={step._id} className="my-1">
+            <Row key={step._id} className="my-2">
                 <Col>
                     <Link to={'/edit-step/' + step._id}>
                         <Button className="w-100" size="lg" type="button" color="primary">{step.title}</Button>
