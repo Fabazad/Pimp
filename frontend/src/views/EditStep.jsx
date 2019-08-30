@@ -5,7 +5,7 @@ import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import StepService from "services/step.service.js";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
-import ReactDragListView from 'react-drag-listview';
+import ReactDragList from 'react-drag-list';
 import { Link } from "react-router-dom";
 
 // index page sections
@@ -23,6 +23,7 @@ class EditStep extends React.Component {
         };
         this.stepService = new StepService();
         this.updateStep = this.updateStep.bind(this);
+        this.onUpdateDragList = this.onUpdateDragList.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,8 +51,12 @@ class EditStep extends React.Component {
   }
 
   stepsRender() {
-    return this.state.step.steps.map(step => {
-        return (
+      return (<ReactDragList
+      handles={false}
+      dataSource={this.state.step.steps}
+      onUpdate={this.onUpdateDragList}
+      row={step => {
+          return (
             <Row key={step._id} className="my-2">
                 <Col>
                     <Link to={'/edit-step/' + step._id}>
@@ -61,9 +66,13 @@ class EditStep extends React.Component {
                 <div  className="pr-3">
                     <Button type="button" size="lg" color="danger" onClick={() => this.removeStep(step._id)}>X</Button>
                 </div>
-            </Row>
-        )
-    });
+            </Row>)
+      }}
+    />);
+  }
+
+  onUpdateDragList() {
+      this.stepService.update(this.state.step._id, {steps: this.state.step.steps});
   }
 
   breadCrumbItemsRender() {
@@ -128,19 +137,6 @@ class EditStep extends React.Component {
   }
 
   render() {
-      
-    const that = this;
-    const dragProps = {
-      onDragEnd(fromIndex, toIndex) {
-        const steps = that.state.step.steps;
-        const item = steps.splice(fromIndex, 1)[0];
-        steps.splice(toIndex, 0, item);
-        that.stepService.update(that.state.step._id, {steps}).then(step => that.setState({step}));
-      },
-      nodeSelector: 'div.row',
-      handleSelector: 'div.col'
-    };
-
     return (
       <>
         <DemoNavbar />
@@ -176,9 +172,7 @@ class EditStep extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        <ReactDragListView {...dragProps}>
-                            {this.stepsRender()}
-                        </ReactDragListView>
+                        {this.stepsRender()}
                         <AddEditStepModal onSave={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
                     </Col>
                 </Row>
