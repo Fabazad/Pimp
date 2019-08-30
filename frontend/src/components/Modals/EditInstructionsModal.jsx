@@ -50,7 +50,7 @@ class EditInstructionsModal extends React.Component {
   }
 
   focusInput() {
-    this.instructionsInput.current.select();
+    this.instructionsInput.current.focus();
   }
 
   render() {

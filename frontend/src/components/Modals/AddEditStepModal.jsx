@@ -56,7 +56,7 @@ class AddEditStepModal extends React.Component {
   }
 
   focusInput() {
-    this.titleInput.current.select();
+    this.titleInput.current.focus();
   }
 
   modalButtonRender() {

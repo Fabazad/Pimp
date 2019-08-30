@@ -47,7 +47,9 @@ class EditStep extends React.Component {
   }
 
   updateStep(step) {
-    this.setState({step: step})
+    const stepHistory = this.state.stepHistory;
+    stepHistory[stepHistory.length -1] = step;
+    this.setState({step, stepHistory});
   }
 
   stepsRender() {
