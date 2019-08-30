@@ -50,7 +50,7 @@ class EditInstructionsModal extends React.Component {
   }
 
   focusInput() {
-    this.instructionsInput.current.focus();
+    this.instructionsInput.current.select();
   }
 
   render() {
@@ -95,7 +95,7 @@ class EditInstructionsModal extends React.Component {
                   value={this.state.instructions} 
                   onChange={this.handleChange} 
                   name="instructions"
-                  ref={this.instructionsInput} />
+                  innerRef={this.instructionsInput} />
               </FormGroup>
             </div>
             <div className="modal-footer">

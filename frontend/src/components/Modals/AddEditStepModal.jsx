@@ -56,7 +56,7 @@ class AddEditStepModal extends React.Component {
   }
 
   focusInput() {
-    this.titleInput.current.focus();
+    this.titleInput.current.select();
   }
 
   modalButtonRender() {
@@ -113,7 +113,7 @@ class AddEditStepModal extends React.Component {
                   value={this.state.step.title} 
                   onChange={this.handleChange} 
                   name="title"
-                  ref={this.titleInput} />
+                  innerRef={this.titleInput} />
               </FormGroup>
             </div>
             <div className="modal-footer">
