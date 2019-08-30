@@ -12,10 +12,11 @@ class BaseService {
 
     constructor(path) {
         this.baseURL = (process.env.NODE_ENV === 'development' ? constants.SERVER_DEV_URL : constants.SERVER_PROD_URL) + path;
+        console.log("test");
+        console.log(process.env.NODE_ENV);
     }
 
     getOne(itemId) {
-        console.log(this.baseURL);
         itemId = itemId ? itemId : '';
         return axios.get(this.baseURL + '/' + itemId).then(serviceResolve, err => console.log(err));
     }
