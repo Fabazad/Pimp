@@ -26,6 +26,10 @@ class StepController {
     static async update(stepId, fields) {
         return await StepModel.findByIdAndUpdate(stepId, fields, {new: true}).populate('steps');
     }
+
+    static async find(query) {
+        return await StepModel.find(query);
+    }
 }
 
 module.exports = StepController;

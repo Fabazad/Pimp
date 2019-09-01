@@ -15,6 +15,10 @@ async function stepRoutes (fastify) {
         return await StepController.getFirstOne();
     });
 
+    fastify.get(path + "find", async (request, reply) => {
+        return await StepController.find(request.query);
+    });
+
     fastify.post(path + 'update', async (request, reply) => {
         const {itemId, fields} = request.body;
         return await StepController.update(itemId, fields);

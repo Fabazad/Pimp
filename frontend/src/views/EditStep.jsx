@@ -41,7 +41,7 @@ class EditStep extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
     this.stepService.getOne(this.props.match.params.id).then(step => {
-        this.setState({step: step});
+        this.setState({step});
         this.updateStepHistory(step);
     });
   }
@@ -175,7 +175,7 @@ class EditStep extends React.Component {
                 <Row className="mt-1">
                     <Col xs="12">
                         {this.stepsRender()}
-                        <AddEditStepModal onSave={this.updateStep} currentStepId={this.state.step._id}></AddEditStepModal>
+                        <AddEditStepModal onSave={this.updateStep} step={this.state.step}></AddEditStepModal>
                     </Col>
                 </Row>
             </Container>

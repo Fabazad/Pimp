@@ -15,9 +15,8 @@ class AddEditStepModal extends React.Component {
     super(props)
     this.state = {
       exampleModal: false,
-      step: {
-        title: ''
-      },
+      title: '',
+      stepId: '',
       steps: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -28,7 +27,7 @@ class AddEditStepModal extends React.Component {
   }
 
   componentDidMount() {
-    this.stepService.find({}).then(steps => this.setState(steps))
+    this.stepService.find({main: false}).then(steps => this.setState({steps}))
   }
 
   toggleModal = state => {
@@ -44,15 +43,23 @@ class AddEditStepModal extends React.Component {
     const name = target.name;
 
     this.setState({
-      step: { [name]: value }
+      [name]: value
     });
   }
 
   handleSubmit(event){
     event.preventDefault();
-    const serviceAction = this.props.isEditing ?
-    this.stepService.update(this.props.step._id, {title: this.state.step.title}) :
-      this.stepService.create(this.state.step, {stepId: this.props.currentStepId});
+    let serviceAction;
+    if (!this.props.isEditing && this.state.stepId) {
+      const steps = this.props.step.steps;
+      const step = this.state.steps.find(s => s._id === this.state.stepId)
+      steps.push(step);
+      serviceAction = this.stepService.update(this.props.step._id, {steps})
+    } else {
+      serviceAction = this.props.isEditing ?
+        this.stepService.update(this.props.step._id, {title: this.state.step.title}) :
+        this.stepService.create({title: this.state.step.title}, {stepId: this.props.stop._id});
+    }
     serviceAction.then(step => {
       this.props.onSave(step);
       this.toggleModal("exampleModal");
@@ -87,9 +94,9 @@ class AddEditStepModal extends React.Component {
         <div>
           <h6 className="text-center">OR</h6>
           <FormGroup>
-            <Input type="select" name="step" id="exampleSelect">
-                <option value={null}>Choose step</option>
-                {this.state.steps.map(step => <option>{step.title}</option>)}
+            <Input type="select" name="stepId" onChange={this.handleChange} value={this.state.stepId} disabled={this.state.title}>
+                <option value={''}>Choose step</option>
+                {this.state.steps.map(step => <option key={"oprion" + step._id} value={step._id}>{step.title}</option>)}
             </Input>
           </FormGroup>
         </div>
@@ -131,9 +138,10 @@ class AddEditStepModal extends React.Component {
                 <Input 
                   placeholder="Step title" 
                   type="text" 
-                  value={this.state.step.title} 
+                  value={this.state.title} 
                   onChange={this.handleChange} 
                   name="title"
+                  disabled = {this.state.stepId}
                   innerRef={this.titleInput} />
               </FormGroup>
               {this.selectStepRender()}

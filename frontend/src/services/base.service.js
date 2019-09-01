@@ -28,7 +28,7 @@ class BaseService {
     }
 
     find(query = {}) {
-        return axios.get(this.baseURL + "/find", query).then(serviceResolve, err => console.log(err));
+        return axios.get(this.baseURL + "/find", { params: query}).then(serviceResolve, err => console.log(err));
     }
 }
 
