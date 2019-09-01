@@ -11,8 +11,7 @@ class BaseService {
     baseURL;
 
     constructor(path) {
-        console.log(process.env.NODE_ENV);
-        this.baseURL = constants.SERVER_DEV_URL + path;
+        this.baseURL = (process.env.NODE_ENV === 'development' ? constants.SERVER_DEV_URL : constants.SERVER_PROD_URL) + path;
     }
 
     getOne(itemId) {
