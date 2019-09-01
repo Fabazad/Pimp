@@ -27,6 +27,10 @@ class AddEditStepModal extends React.Component {
     this.titleInput = React.createRef();
   }
 
+  componentDidMount() {
+    this.stepService.find({}).then(steps => this.setState(steps))
+  }
+
   toggleModal = state => {
     this.setState({
       [state]: !this.state[state],
@@ -77,6 +81,23 @@ class AddEditStepModal extends React.Component {
       >Add</Button>);
   }
 
+  selectStepRender() {
+    if (!this.props.isEditing) {
+      return (
+        <div>
+          <h6 className="text-center">OR</h6>
+          <FormGroup>
+            <Input type="select" name="step" id="exampleSelect">
+                <option value={null}>Choose step</option>
+                {this.state.steps.map(step => <option>{step.title}</option>)}
+            </Input>
+          </FormGroup>
+        </div>
+      );
+    }
+    return (null);
+  }
+
   render() {
     const title = (this.props.isEditing ? "Edit" : "Add") + " step";
     return (
@@ -115,6 +136,7 @@ class AddEditStepModal extends React.Component {
                   name="title"
                   innerRef={this.titleInput} />
               </FormGroup>
+              {this.selectStepRender()}
             </div>
             <div className="modal-footer">
               <Button

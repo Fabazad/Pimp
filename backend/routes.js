@@ -1,8 +1,8 @@
-const kittenRoutes = require('./routes/kitten.routes');
+const frontRoutes = require('./routes/front.routes');
 const stepRoutes = require('./routes/step.routes');
 
 async function routes (fastify) {
-    kittenRoutes(fastify);
+    frontRoutes(fastify);
     stepRoutes(fastify);
 }
 
