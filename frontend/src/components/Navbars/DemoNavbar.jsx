@@ -1,24 +1,10 @@
-/*!
 
-=========================================================
-* Argon Design System React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { Link } from "react-router-dom";
-// JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
+import { initHistorySteps } from "actions/historySteps";
+import { connect } from 'react-redux';
+
 // reactstrap components
 import {
   UncontrolledCollapse,
@@ -77,12 +63,12 @@ class DemoNavbar extends React.Component {
                 </div>
                 <Nav className="navbar-nav-hover align-items-lg-center" navbar>
                   <NavItem>
-                    <NavLink to={"/"} tag={Link}>
+                    <NavLink to={"/"} tag={Link} onClick={() => this.props.initHistorySteps([])}>
                       Steps
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink to={"/edit-step/"} tag={Link}>
+                    <NavLink to={"/edit-step/"} tag={Link} onClick={() => this.props.initHistorySteps([])}>
                       Admin
                     </NavLink>
                   </NavItem>
@@ -96,4 +82,11 @@ class DemoNavbar extends React.Component {
   }
 }
 
-export default DemoNavbar;
+const mapDispatchToProps = dispatch => ({
+  initHistorySteps: step => dispatch(initHistorySteps(step))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(DemoNavbar);

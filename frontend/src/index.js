@@ -18,6 +18,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware  } from 'redux';
+import rootReducer from './reducers';
+import thunkMiddleware from 'redux-thunk'
 
 import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
@@ -32,32 +36,36 @@ import Login from "views/examples/Login.jsx";
 import Profile from "views/examples/Profile.jsx";
 import Register from "views/examples/Register.jsx";
 
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/" exact render={props => <StepView {...props} />} />
-      <Route path="/step/:id" exact render={props => <StepView {...props} />} />
-      <Route path="/edit-step/" exact render={props => <EditStep {...props} />} />
-      <Route path="/edit-step/:id" exact render={props => <EditStep {...props} />} />
-      <Route path="/index" exact render={props => <Index {...props} />} />
-      <Route
-        path="/landing-page"
-        exact
-        render={props => <Landing {...props} />}
-      />
-      <Route path="/login-page" exact render={props => <Login {...props} />} />
-      <Route
-        path="/profile-page"
-        exact
-        render={props => <Profile {...props} />}
-      />
-      <Route
-        path="/register-page"
-        exact
-        render={props => <Register {...props} />}
-      />
-      <Redirect to="/" />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact render={props => <StepView {...props} />} />
+        <Route path="/step/:id" exact render={props => <StepView {...props} />} />
+        <Route path="/edit-step/" exact render={props => <EditStep {...props} />} />
+        <Route path="/edit-step/:id" exact render={props => <EditStep {...props} />} />
+        <Route path="/index" exact render={props => <Index {...props} />} />
+        <Route
+          path="/landing-page"
+          exact
+          render={props => <Landing {...props} />}
+        />
+        <Route path="/login-page" exact render={props => <Login {...props} />} />
+        <Route
+          path="/profile-page"
+          exact
+          render={props => <Profile {...props} />}
+        />
+        <Route
+          path="/register-page"
+          exact
+          render={props => <Register {...props} />}
+        />
+        <Redirect to="/" />
+      </Switch>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );

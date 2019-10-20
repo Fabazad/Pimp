@@ -3,25 +3,24 @@ import React from "react";
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
-import StepService from "services/step.service.js";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
+import StepNavigation from "components/Navbars/StepNavigation";
 import ReactDragList from 'react-drag-list';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { addHistoryStep } from "actions/historySteps";
+import { fetchStep } from "actions/steps";
+import stepService from "services/step.service";
+import { updateLastHistoryStep } from "actions/historySteps";
 
 // index page sections
-import { Button, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Button, Container, Row, Col } from "reactstrap";
+import Register from "./examples/Register";
 
 class EditStep extends React.Component {
 
     constructor(props) {
-        super(props)
-        this.state = {
-            step: {
-                steps: []
-            },
-            stepHistory: []
-        };
-        this.stepService = new StepService();
+        super(props);
         this.updateStep = this.updateStep.bind(this);
         this.onUpdateDragList = this.onUpdateDragList.bind(this);
     }
@@ -29,10 +28,7 @@ class EditStep extends React.Component {
     componentWillReceiveProps(nextProps) {
         var stepId = nextProps.match.params.id;
         if (stepId !== this.props.match.params.id) {
-            this.stepService.getOne(nextProps.match.params.id).then(step => {
-                this.setState({step: step});
-                this.updateStepHistory(step);
-            });
+            this.props.fetchStep(stepId);
         }
     }
 
@@ -40,29 +36,25 @@ class EditStep extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
-    this.stepService.getOne(this.props.match.params.id).then(step => {
-        this.setState({step});
-        this.updateStepHistory(step);
-    });
+    this.props.fetchStep(this.props.match.params.id);
   }
 
   updateStep(step) {
-    const stepHistory = this.state.stepHistory;
-    stepHistory[stepHistory.length -1] = step;
-    this.setState({step, stepHistory});
+    this.props.updateLastHistoryStep(step);
+    this.props.fetchStep(step._id);
   }
 
   stepsRender() {
       return (<ReactDragList
       handles={false}
-      dataSource={this.state.step.steps}
+      dataSource={this.props.step.steps}
       onUpdate={this.onUpdateDragList}
       row={step => {
           return (
             <Row key={step._id} className="my-2">
                 <Col>
                     <Link to={'/edit-step/' + step._id}>
-                        <Button className="w-100" size="lg" type="button" color="primary">{step.title}</Button>
+                        <Button className="w-100" size="lg" type="button" color="primary" onClick={() => this.props.addHistoryStep(step)}>{step.title}</Button>
                     </Link>
                 </Col>
                 <div  className="pr-3">
@@ -74,94 +66,38 @@ class EditStep extends React.Component {
   }
 
   onUpdateDragList() {
-      this.stepService.update(this.state.step._id, {steps: this.state.step.steps});
-  }
-
-  breadCrumbItemsRender() {
-      return this.state.stepHistory.map((step, i) => {
-          if (i === this.state.stepHistory.length - 1) {
-              return (<BreadcrumbItem active key={'b' + step._id}>{step.title}</BreadcrumbItem>);
-          }
-          return (
-            <BreadcrumbItem key={'b' + step._id}>
-                <Link to={'/edit-step/' + step._id}>{step.title}</Link>
-            </BreadcrumbItem>
-          );
-      })
-  }
-
-  updateStepHistory(step) {
-      const stepIndex = this.state.stepHistory.findIndex(stepH => stepH._id === step._id);
-      let stepHistory = this.state.stepHistory;
-        if (stepIndex > -1) {
-            stepHistory = stepHistory.slice(0, stepIndex + 1);
-        } else {
-            stepHistory.push(step);
-        }
-        this.setState({stepHistory: stepHistory});
-  }
-
-  previousButtonRender() {
-    return (this.state.stepHistory.length > 1) ? (
-        <Col className="text-left">
-            <Link to={"/edit-step/" + this.state.stepHistory[this.state.stepHistory.length -2]._id}>
-                <Button color="secondary" type="button">Previous</Button>
-            </Link>
-        </Col>
-    ) : null;
-  }
-
-  nextButtonRender() {
-    const parentStep = this.state.stepHistory[this.state.stepHistory.length - 2];
-    if(!parentStep) {
-        return (null);
-    }
-    const stepIndex = parentStep.steps.findIndex(step => step._id === this.state.step._id);
-    const nextStep = parentStep.steps[stepIndex + 1];
-    return (nextStep) ? (
-        <Col className="text-right">
-            <Link to={"/edit-step/" + nextStep._id}>
-                <Button color="secondary" type="button">Next</Button>
-            </Link>
-        </Col>
-    ) : null;
+      stepService.update(this.props.step._id, {steps: this.props.step.steps});
   }
 
   removeStep(stepId) {
-      const index = this.state.step.steps.findIndex(step => step._id === stepId);
+      const index = this.props.step.steps.findIndex(step => step._id === stepId);
       if (index >= 0) {
-          const steps = this.state.step.steps;
+          const steps = this.props.step.steps;
           steps.splice(index, 1);
-          this.stepService.update(this.state.step._id, {steps: steps}).then(step => {
-            this.setState({step: step});
+          stepService.update(this.props.step._id, {steps}).then(step => {
+            this.props.fetchStep(this.props.step._id)
           })
       }
   }
 
-  render() {
+  pageRender() {
+    if (this.props.step.error) return (<div>error: {this.props.step.error}</div>)
+    if (this.props.step.loading || !this.props.step._id) return (<div>Loading</div>)
     return (
-      <>
-        <DemoNavbar />
-        <main ref="main" className="mt-56px">
-            <Breadcrumb>
-                {this.breadCrumbItemsRender()}
-            </Breadcrumb>
+        <div>
+            {(this.props.step._id) ? <StepNavigation step={this.props.step}/> : ""}
             <Container className="mt-2">
-                <Row>
-                    {this.previousButtonRender()}
-                    {this.nextButtonRender()}
-                </Row>
                 <Row className="mt-2">
                     <Col className="text-center">
                         <h2 className="text-default">
-                            {this.state.step.title} 
-                            <AddEditStepModal step={this.state.step} onSave={this.updateStep} isEditing={true}></AddEditStepModal>
+                            {this.props.step.title} 
+                            <AddEditStepModal step={this.props.step} onSave={this.updateStep} isEditing={true}></AddEditStepModal>
                         </h2>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <EditInstructionsModal step={this.state.step} onEdit={this.updateStep}></EditInstructionsModal>
+                        <EditInstructionsModal step={this.props.step} onEdit={this.updateStep}></EditInstructionsModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Update Video</Button>
@@ -175,14 +111,38 @@ class EditStep extends React.Component {
                 <Row className="mt-1">
                     <Col xs="12">
                         {this.stepsRender()}
-                        <AddEditStepModal onSave={this.updateStep} step={this.state.step}></AddEditStepModal>
+                        <AddEditStepModal onSave={this.updateStep} step={this.props.step}></AddEditStepModal>
                     </Col>
                 </Row>
             </Container>
+        </div>
+    )
+
+  }
+
+  render() {
+    return (
+      <>
+        <DemoNavbar />
+        <main ref="main" className="mt-56px">
+            {this.pageRender()}
         </main>
       </>
     );
   }
 }
 
-export default EditStep;
+const mapStateToProps = state => ({
+    step: state.step
+});
+
+const mapDispatchToProps = dispatch => ({
+    addHistoryStep: step => dispatch(addHistoryStep(step)),
+    fetchStep: _id => dispatch(fetchStep(_id)),
+    updateLastHistoryStep: step => dispatch(updateLastHistoryStep(step)),
+});
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditStep);

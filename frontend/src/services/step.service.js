@@ -6,4 +6,4 @@ class StepService extends BaseService {
     }
 }
 
-export default StepService;
+export default new StepService();

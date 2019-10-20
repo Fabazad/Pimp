@@ -1,5 +1,5 @@
 import React from "react";
-import StepService from "services/step.service";
+import stepService from "services/step.service";
 // reactstrap components
 import {
   Button,
@@ -20,7 +20,6 @@ class EditInstructionsModal extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.focusInput = this.focusInput.bind(this);
-    this.stepService = new StepService();
     this.instructionsInput = React.createRef();
   }
 
@@ -43,7 +42,7 @@ class EditInstructionsModal extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    this.stepService.update(this.props.step._id, {instructions: this.state.instructions}).then(step => {
+    stepService.update(this.props.step._id, {instructions: this.state.instructions}).then(step => {
       this.props.onEdit(step);
       this.toggleModal("exampleModal");
     });

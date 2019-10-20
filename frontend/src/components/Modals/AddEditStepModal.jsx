@@ -1,5 +1,5 @@
 import React from "react";
-import StepService from "services/step.service";
+import stepService from "services/step.service";
 // reactstrap components
 import {
   Button,
@@ -22,15 +22,15 @@ class AddEditStepModal extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.focusInput = this.focusInput.bind(this);
-    this.stepService = new StepService();
     this.titleInput = React.createRef();
   }
 
   componentDidMount() {
-    this.stepService.find({main: false}).then(steps => this.setState({steps}))
+    stepService.find({main: false}).then(steps => this.setState({steps}))
   }
 
   toggleModal = state => {
+    console.log(this.props.step);
     this.setState({
       [state]: !this.state[state],
       step: this.props.isEditing ? this.props.step : { title: ''}
@@ -54,11 +54,12 @@ class AddEditStepModal extends React.Component {
       const steps = this.props.step.steps;
       const step = this.state.steps.find(s => s._id === this.state.stepId)
       steps.push(step);
-      serviceAction = this.stepService.update(this.props.step._id, {steps})
+      serviceAction = stepService.update(this.props.step._id, {steps})
     } else {
+      console.log(this.props.step._id);
       serviceAction = this.props.isEditing ?
-        this.stepService.update(this.props.step._id, {title: this.state.step.title}) :
-        this.stepService.create({title: this.state.step.title}, {stepId: this.props.stop._id});
+        stepService.update(this.props.step._id, {title: this.state.step.title}) :
+        stepService.create({title: this.state.step.title}, {stepId: this.props.step._id});
     }
     serviceAction.then(step => {
       this.props.onSave(step);
