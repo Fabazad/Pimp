@@ -4,45 +4,45 @@ import React from "react";
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
 import SimpleModal from "components/Modals/SimpleModal.jsx";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { addHistoryStep } from "actions/historySteps";
+import { fetchStep } from "actions/steps";
+import { updateLastHistoryStep } from "actions/historySteps";
+import StepNavigation from "components/Navbars/StepNavigation";
 
 // index page sections
-import { Button, Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Button, Container, Row, Col } from "reactstrap";
 
 class StepView extends React.Component {
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+    this.props.fetchStep(this.props.match.params.id);
   }
 
-  render() {
-      const text = `test \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu \n frefu`;
+  componentWillReceiveProps(nextProps) {
+    const stepId = nextProps.match.params.id;
+    if (stepId !== this.props.match.params.id) {
+        this.props.fetchStep(stepId);
+    }
+  }
+
+  pageRender() {
+    if (this.props.step.error) return (<div>error: {this.props.step.error}</div>)
+    if (this.props.step.loading || !this.props.step._id) return (<div>Loading</div>)
     return (
-      <>
-        <DemoNavbar />
-        <main ref="main" className="mt-56px">
-            <Breadcrumb>
-                <BreadcrumbItem><a href="#">Home</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#">Library</a></BreadcrumbItem>
-                <BreadcrumbItem active>Data</BreadcrumbItem>
-            </Breadcrumb>
+        <div>
+            <StepNavigation step={this.props.step} isEditiong={false}/>
             <Container className="mt-2">
-                <Row>
-                    <Col className="text-left">
-                        <Button color="secondary" type="button">Previous</Button>
-                    </Col>
-                    <Col className="text-right">
-                        <Button color="secondary" type="button">Next</Button>
-                    </Col>
-                </Row>
                 <Row className="mt-2">
                     <Col className="text-center">
-                        <h2 className="text-default">Vibe {this.props.match.params.id}</h2>
+                        <h2 className="text-default">{this.props.step.title}</h2>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <SimpleModal buttonTitle="Notes" title="Vibe Notes" text={text}></SimpleModal>
+                        <SimpleModal buttonTitle="Notes" title="Vibe Notes" text={this.props.step.instructions}></SimpleModal>
                     </Col>
                     <Col>
                         <Button size="sm" color="danger" className="w-100">Video</Button>
@@ -55,18 +55,11 @@ class StepView extends React.Component {
                 </Row>
                 <Row className="mt-1">
                     <Col xs="12">
-                        <Link to={'/step/1'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd fdvx</Button>
-                        </Link>
-                        <Link to={'/step/2'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fhd fjedgsvb</Button>
-                        </Link>
-                        <Link to={'/step/3'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fdv fdjvh fdvx</Button>
-                        </Link>
-                        <Link to={'/step/4'}>
-                            <Button className="w-100 my-1" size="lg" type="button" color="primary">fuedjgfbyvuehd dsf fhdb</Button>
-                        </Link>
+                        {this.props.step.steps.map((step, index) =>(
+                            <Link to={'/step/'+step._id} key={index+step._id}>
+                                <Button className="w-100 my-1" size="lg" type="button" color="primary" onClick={() => this.props.addHistoryStep(step)}>{step.title}</Button>
+                            </Link>
+                        ))}
                     </Col>
                 </Row>
                 <Row className="mt-4">
@@ -80,10 +73,33 @@ class StepView extends React.Component {
                     </Col>
                 </Row>
             </Container>
+        </div>
+    )
+  }
+
+  render() {
+    return (
+      <>
+        <DemoNavbar />
+        <main ref="main" className="mt-56px">
+            {this.pageRender()}
         </main>
       </>
     );
   }
 }
 
-export default StepView;
+const mapStateToProps = state => ({
+    step: state.step
+});
+
+const mapDispatchToProps = dispatch => ({
+    addHistoryStep: step => dispatch(addHistoryStep(step)),
+    fetchStep: _id => dispatch(fetchStep(_id)),
+    updateLastHistoryStep: step => dispatch(updateLastHistoryStep(step)),
+});
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StepView);

@@ -22,7 +22,7 @@ class StepNavigation extends React.Component {
         }
         return (
           <BreadcrumbItem key={'b' + step._id}>
-              <Link to={'/edit-step/' + step._id} onClick={() => this.onBreadcrumbItemClick(step)}>{step.title}</Link>
+              <Link to={(this.props.isEditing ? '/edit-step/' : '/step/') + step._id} onClick={() => this.onBreadcrumbItemClick(step)}>{step.title}</Link>
           </BreadcrumbItem>
         );
     })
@@ -36,7 +36,7 @@ class StepNavigation extends React.Component {
   previousButtonRender() {
     return (this.props.historySteps.length > 1) ? (
         <Col className="text-left">
-            <Link to={"/edit-step/" + this.props.historySteps[this.props.historySteps.length -2]._id}>
+            <Link to={(this.props.isEditing ? '/edit-step/' : '/step/') + this.props.historySteps[this.props.historySteps.length -2]._id}>
                 <Button color="secondary" type="button" onClick={() => this.props.removeLastHistoryStep()}>Previous</Button>
             </Link>
         </Col>

@@ -84,7 +84,7 @@ class EditStep extends React.Component {
     if (this.props.step.loading || !this.props.step._id) return (<div>Loading</div>)
     return (
         <div>
-            {(this.props.step._id) ? <StepNavigation step={this.props.step}/> : ""}
+            <StepNavigation step={this.props.step} isEditing={true}/>
             <Container className="mt-2">
                 <Row className="mt-2">
                     <Col className="text-center">
