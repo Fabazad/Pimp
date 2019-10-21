@@ -33,7 +33,8 @@ class StepView extends React.Component {
         return (<div>error: {this.props.step.error}</div>)
     } 
     if (!this.props.step._id) {
-        return (<div>Loading {this.props.step}</div>)
+        alert(this.props.step)
+        return (<div>Loading {this.props.step._id}</div>)
     } 
     return (
         <div>
