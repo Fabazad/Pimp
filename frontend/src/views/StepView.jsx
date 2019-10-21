@@ -18,6 +18,7 @@ class StepView extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+    alert("test did mount");
     this.props.fetchStep(this.props.match.params.id);
   }
 
@@ -33,8 +34,7 @@ class StepView extends React.Component {
         return (<div>error: {this.props.step.error}</div>)
     } 
     if (!this.props.step._id) {
-        alert(this.props.step)
-        return (<div>Loading {this.props.step._id}</div>)
+        return (<div>Loading</div>)
     } 
     return (
         <div>

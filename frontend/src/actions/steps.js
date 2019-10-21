@@ -20,6 +20,7 @@ export const fetchStep = _id => {
     });
 
     return dispatch => {
+        alert("test dispatch");
         dispatch(request());
         stepService.getOne(_id).then(
             step => dispatch(success(step)),
