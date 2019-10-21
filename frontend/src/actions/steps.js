@@ -22,10 +22,7 @@ export const fetchStep = _id => {
     return dispatch => {
         dispatch(request());
         stepService.getOne(_id).then(
-            step => {
-                alert("test request")
-                dispatch(success(step))
-            },
+            step => dispatch(success(step)),
             error => dispatch(failure(error))
         )
 
