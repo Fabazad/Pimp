@@ -29,8 +29,12 @@ class StepView extends React.Component {
   }
 
   pageRender() {
-    if (this.props.step.error) return (<div>error: {this.props.step.error}</div>)
-    if (!this.props.step._id) return (<div>Loading</div>)
+    if (this.props.step.error) {
+        return (<div>error: {this.props.step.error}</div>)
+    } 
+    if (!this.props.step._id) {
+        return (<div>Loading</div>)
+    } 
     return (
         <div>
             {(this.props.step.loading) ? (<div className="overlay"></div>) : ""}
