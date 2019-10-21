@@ -4,6 +4,7 @@ const step = (state = {}, action) => {
     switch (action.type) {
         case FETCH_STEP_REQUEST:
             return {
+                ...state,
                 loading: true
             }
         case FETCH_STEP_FAILURE:
