@@ -9,7 +9,6 @@ import {
 const todos = (state = [], action) => {
     switch (action.type) {
         case ADD_HISTORY_STEP:
-            console.log(state);
             return [
                 ...state,
                 action.step

@@ -26,13 +26,15 @@ class AddEditStepModal extends React.Component {
   }
 
   componentDidMount() {
-    stepService.find({main: false}).then(steps => this.setState({steps}))
+    if (!this.props.isEditing) {
+      stepService.find({main: false}).then(steps => this.setState({steps}))
+    }
   }
 
   toggleModal = state => {
     this.setState({
       [state]: !this.state[state],
-      step: this.props.isEditing ? this.props.step : { title: ''}
+      title: this.props.isEditing ? this.props.step.title : ''
     });
   };
 
@@ -56,7 +58,7 @@ class AddEditStepModal extends React.Component {
       serviceAction = stepService.update(this.props.step._id, {steps})
     } else {
       serviceAction = this.props.isEditing ?
-        stepService.update(this.props.step._id, {title: this.state.step.title}) :
+        stepService.update(this.props.step._id, {title: this.state.title}) :
         stepService.create({title: this.state.step.title}, {stepId: this.props.step._id});
     }
     serviceAction.then(step => {
