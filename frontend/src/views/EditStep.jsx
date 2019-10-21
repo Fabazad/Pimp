@@ -15,7 +15,6 @@ import { updateLastHistoryStep } from "actions/historySteps";
 
 // index page sections
 import { Button, Container, Row, Col } from "reactstrap";
-import Register from "./examples/Register";
 
 class EditStep extends React.Component {
 
