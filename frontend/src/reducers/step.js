@@ -1,4 +1,8 @@
-import { FETCH_STEP_REQUEST, FETCH_STEP_FAILURE, FETCH_STEP_SUCCESS } from "../actions/steps";
+import { 
+    FETCH_STEP_REQUEST, 
+    FETCH_STEP_FAILURE, 
+    FETCH_STEP_SUCCESS
+} from "../actions/steps";
 
 const step = (state = {}, action) => {
     switch (action.type) {

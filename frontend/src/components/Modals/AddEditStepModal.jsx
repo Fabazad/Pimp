@@ -8,6 +8,9 @@ import {
   FormGroup,
   Input
 } from "reactstrap";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchSteps } from "actions/steps";
 
 class AddEditStepModal extends React.Component {
 
@@ -17,7 +20,6 @@ class AddEditStepModal extends React.Component {
       exampleModal: false,
       title: '',
       stepId: '',
-      steps: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,7 +29,7 @@ class AddEditStepModal extends React.Component {
 
   componentDidMount() {
     if (!this.props.isEditing) {
-      stepService.find({main: false}).then(steps => this.setState({steps}))
+      this.props.fetchSteps({main: false});
     }
   }
 
@@ -53,13 +55,13 @@ class AddEditStepModal extends React.Component {
     let serviceAction;
     if (!this.props.isEditing && this.state.stepId) {
       const steps = this.props.step.steps;
-      const step = this.state.steps.find(s => s._id === this.state.stepId)
-      steps.push(step);
+      const addedStep = this.props.steps.find(s => s._id === this.state.stepId)
+      steps.push(addedStep);
       serviceAction = stepService.update(this.props.step._id, {steps})
     } else {
       serviceAction = this.props.isEditing ?
         stepService.update(this.props.step._id, {title: this.state.title}) :
-        stepService.create({title: this.state.step.title}, {stepId: this.props.step._id});
+        stepService.create({title: this.state.title}, {stepId: this.props.step._id});
     }
     serviceAction.then(step => {
       this.props.onSave(step);
@@ -97,7 +99,7 @@ class AddEditStepModal extends React.Component {
           <FormGroup>
             <Input type="select" name="stepId" onChange={this.handleChange} value={this.state.stepId} disabled={this.state.title}>
                 <option value={''}>Choose step</option>
-                {this.state.steps.map(step => <option key={"oprion" + step._id} value={step._id}>{step.title}</option>)}
+                {this.props.steps.map(step => <option key={"oprion" + step._id} value={step._id}>{step.title}</option>)}
             </Input>
           </FormGroup>
         </div>
@@ -171,4 +173,24 @@ class AddEditStepModal extends React.Component {
   }
 }
 
-export default AddEditStepModal;
+
+AddEditStepModal.propTypes = {
+  isEditing: PropTypes.bool.isRequired,
+  onSave: PropTypes.func.isRequired,
+  steps: PropTypes.array.isRequired,
+  fetchSteps: PropTypes.func.isRequired,
+  step: PropTypes.object.isRequired
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchSteps: query => dispatch(fetchSteps(query))
+});
+
+const mapStateToProps = state => ({
+  steps: state.steps.items
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddEditStepModal);

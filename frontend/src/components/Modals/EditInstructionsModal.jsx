@@ -8,6 +8,7 @@ import {
   FormGroup,
   Input
 } from "reactstrap";
+import PropTypes from 'prop-types';
 
 class EditInstructionsModal extends React.Component {
 
@@ -119,6 +120,11 @@ class EditInstructionsModal extends React.Component {
       </>
     );
   }
+}
+
+EditInstructionsModal.propTypes = {
+  onEdit: PropTypes.func.isRequired,
+  step: PropTypes.object.isRequired
 }
 
 export default EditInstructionsModal;

@@ -30,11 +30,6 @@ import "assets/scss/style.scss";
 
 import StepView from "views/StepView.jsx";
 import EditStep from "views/EditStep.jsx";
-import Index from "views/Index.jsx";
-import Landing from "views/examples/Landing.jsx";
-import Login from "views/examples/Login.jsx";
-import Profile from "views/examples/Profile.jsx";
-import Register from "views/examples/Register.jsx";
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
@@ -46,23 +41,6 @@ ReactDOM.render(
         <Route path="/step/:id" exact render={props => <StepView {...props} />} />
         <Route path="/edit-step/" exact render={props => <EditStep {...props} />} />
         <Route path="/edit-step/:id" exact render={props => <EditStep {...props} />} />
-        <Route path="/index" exact render={props => <Index {...props} />} />
-        <Route
-          path="/landing-page"
-          exact
-          render={props => <Landing {...props} />}
-        />
-        <Route path="/login-page" exact render={props => <Login {...props} />} />
-        <Route
-          path="/profile-page"
-          exact
-          render={props => <Profile {...props} />}
-        />
-        <Route
-          path="/register-page"
-          exact
-          render={props => <Register {...props} />}
-        />
         <Redirect to="/" />
       </Switch>
     </BrowserRouter>
