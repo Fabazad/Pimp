@@ -4,7 +4,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem, Container, Row, Col, Button } from "reactstrap";
 import { connect } from 'react-redux';
 import { removeLastHistorySteps, initHistorySteps, removeLastHistoryStep } from "actions/historySteps";
-
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 class StepNavigation extends React.Component {
@@ -57,6 +57,14 @@ class StepNavigation extends React.Component {
       </>
     );
   }
+}
+
+StepNavigation.propTypes = {
+  historySteps: PropTypes.array.isRequired,
+  removeLastHistorySteps: PropTypes.func.isRequired,
+  initHistorySteps: PropTypes.func.isRequired,
+  removeLastHistoryStep: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({

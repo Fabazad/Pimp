@@ -4,6 +4,7 @@ import {
   Button,
   Modal
 } from "reactstrap";
+import PropTypes from 'prop-types';
 
 class SimpleModal extends React.Component {
   state = {
@@ -60,6 +61,12 @@ class SimpleModal extends React.Component {
       </>
     );
   }
+}
+
+SimpleModal.propTypes = {
+  buttonTitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
 }
 
 export default SimpleModal;

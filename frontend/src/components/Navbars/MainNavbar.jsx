@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import Headroom from "headroom.js";
 import { initHistorySteps } from "actions/historySteps";
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // reactstrap components
 import {
@@ -18,7 +18,7 @@ import {
   Col
 } from "reactstrap";
 
-class DemoNavbar extends React.Component {
+class MainNavbar extends React.Component {
   componentDidMount() {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
@@ -82,6 +82,10 @@ class DemoNavbar extends React.Component {
   }
 }
 
+MainNavbar.propTypes = {
+  initHistorySteps: PropTypes.func.isRequired,
+}
+
 const mapDispatchToProps = dispatch => ({
   initHistorySteps: step => dispatch(initHistorySteps(step))
 });
@@ -89,4 +93,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(DemoNavbar);
+)(MainNavbar);

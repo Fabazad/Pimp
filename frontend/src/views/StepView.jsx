@@ -1,7 +1,7 @@
 import React from "react";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
+import MainNavbar from "components/Navbars/MainNavbar.jsx";
 import SimpleModal from "components/Modals/SimpleModal.jsx";
 import StepsView from "components/StepsView";
 import { connect } from 'react-redux';
@@ -39,10 +39,10 @@ class StepView extends React.Component {
         } 
         return (
         <>
-            <DemoNavbar />
+            <MainNavbar />
             <main ref="main" className="mt-56px">
                 {(this.props.step.loading) ? (<div className="overlay"></div>) : ""}
-                <StepNavigation step={this.props.step} isEditiong={false}/>
+                <StepNavigation step={this.props.step} isEditing={false}/>
                 <Container className="mt-2">
                     <Row className="mt-2">
                         <Col className="text-center">

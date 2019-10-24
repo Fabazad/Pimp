@@ -1,7 +1,7 @@
 import React from "react";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
+import MainNavbar from "components/Navbars/MainNavbar.jsx";
 import AddEditStepModal from "components/Modals/AddEditStepModal.jsx";
 import EditInstructionsModal from "components/Modals/EditInstructionsModal";
 import StepNavigation from "components/Navbars/StepNavigation";
@@ -63,7 +63,7 @@ class EditStep extends React.Component {
         if (!this.props.step._id) return (<div>Loading</div>)
         return (
         <>
-            <DemoNavbar />
+            <MainNavbar />
             <main ref="main" className="mt-56px">
                 {this.props.step.loading ? (<div className="overlay"></div>) : ""}
                 <StepNavigation step={this.props.step} isEditing={true}/>
