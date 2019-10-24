@@ -19,7 +19,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware  } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
 import thunkMiddleware from 'redux-thunk'
 
@@ -31,7 +31,8 @@ import "assets/scss/style.scss";
 import StepView from "views/StepView.jsx";
 import EditStep from "views/EditStep.jsx";
 
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 ReactDOM.render(
   <Provider store={store}>
