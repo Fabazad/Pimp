@@ -5,8 +5,5 @@
         "start-frontend": "cd frontend && npm start",
         "start": "cd backend && npm start",
         "heroku-postbuild": "cd frontend && npm run build"
-    },
-    "devDependencies": {
-        "dotenv": "^8.1.0"
     }
 }
